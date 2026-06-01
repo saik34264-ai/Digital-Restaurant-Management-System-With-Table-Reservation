@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reservation Confirmed</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif; background: #f5f2ee;
+            display: flex; align-items: center; justify-content: center;
+            min-height: 100vh; padding: 20px;
+        }
+        .box {
+            background: white; max-width: 420px; width: 100%;
+            padding: 40px; border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0,0,0,.1); text-align: center;
+        }
+        .icon { font-size: 3.5rem; margin-bottom: 12px; }
+        h1 { color: #2e7d32; font-size: 1.5rem; margin-bottom: 8px; }
+        p  { color: #888; margin-bottom: 26px; }
+
+        .btn {
+            display: inline-block; padding: 12px 28px;
+            background: #fc8019; color: white; text-decoration: none;
+            border-radius: 8px; font-weight: 700; font-size: 0.95rem;
+            transition: background .2s;
+        }
+        .btn:hover { background: #e06a00; }
+    </style>
+</head>
+<body>
+<div class="box">
+    <div class="icon">🎉</div>
+    <h1>Table Reserved Successfully!</h1>
+    <p>Thank you for your reservation. We look forward to welcoming you!</p>
+    <a href="{% url 'menu' %}" class="btn">Browse Menu 🍽️</a>
+</div>
+</body>
+</html>

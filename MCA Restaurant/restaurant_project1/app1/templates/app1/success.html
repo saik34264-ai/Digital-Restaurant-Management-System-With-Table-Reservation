@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Order Placed!</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Segoe UI',sans-serif;
+    background:#f5f2ee;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    padding:20px;
+}
+
+.box{
+    background:white;
+    max-width:520px;
+    width:100%;
+    padding:45px;
+    border-radius:18px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.12);
+    text-align:center;
+}
+
+.icon{
+    font-size:70px;
+    margin-bottom:15px;
+}
+
+h1{
+    color:#2e7d32;
+    margin-bottom:12px;
+}
+
+p{
+    color:#666;
+    line-height:1.6;
+    margin-bottom:28px;
+}
+
+.btns{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.btn{
+    padding:13px;
+    border-radius:10px;
+    text-decoration:none;
+    color:white;
+    font-weight:700;
+    transition:0.3s;
+    font-size:15px;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+.menu{ background:#fc8019; }
+.kitchen{ background:#1565c0; }
+.track{ background:#8e44ad; }
+.feedback{ background:#00a86b; }
+
+@media(max-width:600px){
+.btns{
+grid-template-columns:1fr;
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+<div class="icon">✅</div>
+
+<h1>Order Placed Successfully!</h1>
+
+<p>
+Your order has been sent to kitchen.<br>
+We'll prepare it shortly 🍛
+</p>
+
+<div class="btns">
+
+<a href="{% url 'menu' %}" class="btn menu">
+🍽️ Order More
+</a>
+
+
+<a href="{% url 'track_order' %}" class="btn track">
+📦 Track My Order
+</a>
+
+<a href="{% url 'feedback' %}" class="btn feedback">
+⭐ Give Feedback
+</a>
+
+</div>
+
+</div>
+
+</body>
+</html>

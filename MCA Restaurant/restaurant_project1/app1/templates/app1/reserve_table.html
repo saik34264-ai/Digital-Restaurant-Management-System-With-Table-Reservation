@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reserve a Table</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #fc8019 0%, #ff512f 100%);
+            min-height: 100vh;
+            display: flex; align-items: center; justify-content: center; padding: 20px;
+        }
+        .box {
+            background: white; width: 100%; max-width: 430px;
+            padding: 36px; border-radius: 16px;
+            box-shadow: 0 20px 50px rgba(0,0,0,.25);
+        }
+        .box h2 { color: #fc8019; font-size: 1.5rem; margin-bottom: 6px; }
+        .box p  { color: #888; font-size: 0.88rem; margin-bottom: 24px; }
+
+        label { display: block; font-size: 0.82rem; font-weight: 600; color: #555; margin-bottom: 4px; }
+
+        input {
+            width: 100%; padding: 11px 14px;
+            border: 1.5px solid #ddd; border-radius: 8px;
+            font-size: 0.95rem; margin-bottom: 14px;
+            transition: border .2s;
+        }
+        input:focus { border-color: #fc8019; outline: none; }
+
+        button {
+            width: 100%; padding: 13px;
+            background: #fc8019; color: white; border: none;
+            border-radius: 8px; font-size: 1rem; font-weight: 700;
+            cursor: pointer; transition: background .2s;
+            margin-top: 4px;
+        }
+        button:hover { background: #e06a00; }
+
+        .back { display: block; text-align: center; margin-top: 14px;
+                color: #888; font-size: 0.85rem; text-decoration: none; }
+        .back:hover { color: #fc8019; }
+    </style>
+</head>
+<body>
+<div class="box">
+    <h2>🍽️ Reserve Your Table</h2>
+    <p>Fill in the details and we'll confirm your booking.</p>
+
+    <form method="POST">
+        {% csrf_token %}
+        <label>Your Name</label>
+        <input type="text"   name="name"   placeholder="e.g. Sai Kumar"   required>
+
+        <label>Phone Number</label>
+        <input type="tel"    name="phone"  placeholder="e.g. 9876543210"  required>
+
+        <label>Reservation Date</label>
+        <input type="date"   name="date"                                   required>
+
+        <label>Reservation Time</label>
+        <input type="time"   name="time"                                   required>
+
+        <label>Number of Guests</label>
+        <input type="number" name="guests" placeholder="e.g. 4" min="1"   required>
+
+        <button type="submit">Reserve Now ✅</button>
+    </form>
+
+    <a href="{% url 'menu' %}" class="back">← Back to Menu</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,131 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kitchen Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #1a1a2e; color: #eee; min-height: 100vh; }
+
+        h1 {
+            background: #fc8019; color: white;
+            padding: 16px 28px; font-size: 1.4rem;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        h1 a {
+            color: white; font-size: 0.85rem; text-decoration: none;
+            background: rgba(255,255,255,.2); padding: 6px 14px; border-radius: 6px;
+        }
+        .board {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px; padding: 24px;
+        }
+        .col { background: #16213e; border-radius: 12px; overflow: hidden; min-height: 180px; }
+        .col-header {
+            padding: 13px 18px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 1px; font-size: 0.82rem;
+        }
+        .h-pending   { background: #bf360c; }
+        .h-preparing { background: #0d47a1; }
+        .h-ready     { background: #1b5e20; }
+        .h-served    { background: #37474f; }
+        .order-card  { border-bottom: 1px solid #0f3460; padding: 14px 18px; }
+        .order-card h4 { font-size: 0.95rem; margin-bottom: 3px; }
+        .order-card p  { font-size: 0.78rem; color: #aaa; margin-bottom: 10px; }
+        .status-form { display: flex; gap: 7px; align-items: center; }
+        .status-form select {
+            flex: 1; padding: 5px 8px; border-radius: 6px;
+            border: none; background: #0f3460; color: white; font-size: 0.78rem;
+        }
+        .status-form button {
+            padding: 5px 12px; background: #fc8019; color: white;
+            border: none; border-radius: 6px; cursor: pointer;
+            font-size: 0.78rem; font-weight: 600;
+        }
+        .status-form button:hover { background: #e06a00; }
+        .col-empty { padding: 18px; color: #555; font-size: 0.82rem; font-style: italic; }
+    </style>
+</head>
+<body>
+<h1>&#128104;&#8205;&#127859; Kitchen Dashboard <a href="{% url 'menu' %}">&#8592; Back to Menu</a></h1>
+<div class="board">
+
+  <!-- PENDING -->
+  <div class="col">
+    <div class="col-header h-pending">&#x1F7E0; Pending ({{ pending|length }})</div>
+    {% for order in pending %}
+    <div class="order-card">
+      <h4>{{ order.food_name }}</h4>
+      <p>Qty: {{ order.quantity }} | Order #{{ order.id }}</p>
+      <form method="POST" class="status-form">{% csrf_token %}
+        <input type="hidden" name="order_id" value="{{ order.id }}">
+        <select name="status">
+          <option value="Pending" selected>Pending</option>
+          <option value="Preparing">Preparing</option>
+          <option value="Ready">Ready</option>
+          <option value="Served">Served</option>
+        </select>
+        <button type="submit">Update</button>
+      </form>
+    </div>
+    {% empty %}<p class="col-empty">No pending orders</p>{% endfor %}
+  </div>
+
+  <!-- PREPARING -->
+  <div class="col">
+    <div class="col-header h-preparing">&#x1F535; Preparing ({{ preparing|length }})</div>
+    {% for order in preparing %}
+    <div class="order-card">
+      <h4>{{ order.food_name }}</h4>
+      <p>Qty: {{ order.quantity }} | Order #{{ order.id }}</p>
+      <form method="POST" class="status-form">{% csrf_token %}
+        <input type="hidden" name="order_id" value="{{ order.id }}">
+        <select name="status">
+          <option value="Pending">Pending</option>
+          <option value="Preparing" selected>Preparing</option>
+          <option value="Ready">Ready</option>
+          <option value="Served">Served</option>
+        </select>
+        <button type="submit">Update</button>
+      </form>
+    </div>
+    {% empty %}<p class="col-empty">No orders preparing</p>{% endfor %}
+  </div>
+
+  <!-- READY -->
+  <div class="col">
+    <div class="col-header h-ready">&#x1F7E2; Ready ({{ ready|length }})</div>
+    {% for order in ready %}
+    <div class="order-card">
+      <h4>{{ order.food_name }}</h4>
+      <p>Qty: {{ order.quantity }} | Order #{{ order.id }}</p>
+      <form method="POST" class="status-form">{% csrf_token %}
+        <input type="hidden" name="order_id" value="{{ order.id }}">
+        <select name="status">
+          <option value="Pending">Pending</option>
+          <option value="Preparing">Preparing</option>
+          <option value="Ready" selected>Ready</option>
+          <option value="Served">Served</option>
+        </select>
+        <button type="submit">Update</button>
+      </form>
+    </div>
+    {% empty %}<p class="col-empty">No orders ready</p>{% endfor %}
+  </div>
+
+  <!-- SERVED -->
+  <div class="col">
+    <div class="col-header h-served">&#x2705; Served ({{ served|length }})</div>
+    {% for order in served %}
+    <div class="order-card">
+      <h4>{{ order.food_name }}</h4>
+      <p>Qty: {{ order.quantity }} | Order #{{ order.id }}</p>
+    </div>
+    {% empty %}<p class="col-empty">No served orders yet</p>{% endfor %}
+  </div>
+
+</div>
+</body>
+</html>

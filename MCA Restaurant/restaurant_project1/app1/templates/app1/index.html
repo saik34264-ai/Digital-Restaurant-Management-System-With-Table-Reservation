@@ -1,0 +1,166 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spice Garden Restaurant</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1600')
+                        no-repeat center center / cover;
+            color: white;
+            min-height: 100vh;
+        }
+
+        .overlay {
+            background: rgba(0,0,0,0.65);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
+            backdrop-filter: blur(6px);
+            z-index: 99;
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #fc8019;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+        }
+
+        nav a {
+            color: #eee;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color .2s;
+        }
+
+        nav a:hover { color: #fc8019; }
+
+        .hero { text-align: center; }
+
+        .hero h1 {
+            font-size: clamp(2rem, 6vw, 4rem);
+            margin-bottom: 12px;
+        }
+
+        .hero h1 span { color: #fc8019; }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #ccc;
+            margin-bottom: 36px;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 13px 30px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.3s;
+            display: inline-block;
+            min-width: 220px;
+            text-align: center;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .btn-primary {
+            background: #fc8019;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #e06a00;
+        }
+
+        .btn-outline {
+            border: 2px solid white;
+            color: white;
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            background: white;
+            color: #333;
+        }
+
+        /* FIXED KITCHEN BUTTON */
+        .btn-ghost {
+            border: 2px solid white;
+            color: white;
+            background: transparent;
+        }
+
+        .btn-ghost:hover {
+            background: white;
+            color: #333;
+        }
+
+    </style>
+</head>
+<body>
+
+<nav>
+    <span class="logo">🍽️ Spice Garden</span>
+
+    <ul>
+        <li><a href="{% url 'welcome' %}">Home</a></li>
+        <li><a href="{% url 'menu' %}">Menu</a></li>
+        <li><a href="{% url 'view_cart' %}">🛒 Cart</a></li>
+        <li><a href="{% url 'reserve_table' %}">Reserve</a></li>
+        <li><a href="{% url 'kitchen' %}">Kitchen</a></li>
+    </ul>
+</nav>
+
+<div class="overlay">
+    <div class="hero">
+
+        <h1>Welcome to <span>Spice Garden</span></h1>
+
+        <p>Authentic flavours, warm ambience & unforgettable memories 🍛</p>
+
+        <div class="hero-btns">
+            <a href="{% url 'menu' %}" class="btn btn-primary">Explore Menu 🍽️</a>
+
+            <a href="{% url 'reserve_table' %}" class="btn btn-outline">Book a Table 📅</a>
+
+            
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

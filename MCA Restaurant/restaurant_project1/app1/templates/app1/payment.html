@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Segoe UI',sans-serif;
+background:linear-gradient(135deg,#ff9966,#ff5e62);
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:20px;
+}
+
+.container{
+width:100%;
+max-width:450px;
+background:white;
+padding:35px;
+border-radius:18px;
+box-shadow:0 12px 30px rgba(0,0,0,0.15);
+}
+
+h1{
+text-align:center;
+color:#333;
+margin-bottom:25px;
+}
+
+.total{
+text-align:center;
+font-size:30px;
+font-weight:bold;
+color:#ff5e62;
+margin-bottom:25px;
+}
+
+.option{
+border:1px solid #ddd;
+padding:14px;
+border-radius:10px;
+margin-bottom:15px;
+font-size:17px;
+}
+
+button{
+width:100%;
+padding:14px;
+border:none;
+background:#ff5e62;
+color:white;
+font-size:18px;
+font-weight:bold;
+border-radius:10px;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+background:#e14b52;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>💳 Payment Page</h1>
+
+<div class="total">₹{{ total }}</div>
+
+<form method="post" action="{% url 'confirm_payment' %}">
+{% csrf_token %}
+
+<div class="option">
+<label>
+<input type="radio" name="method" value="COD" required>
+ Cash On Delivery
+</label>
+</div>
+
+<div class="option">
+<label>
+<input type="radio" name="method" value="Online">
+ Online Payment
+</label>
+</div>
+
+<button type="submit">Confirm Order</button>
+
+</form>
+
+</div>
+
+</body>
+</html>

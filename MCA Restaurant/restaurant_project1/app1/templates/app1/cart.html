@@ -1,0 +1,134 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart – Spice Garden</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f5f2ee; }
+
+        h1 {
+            background: #fc8019; color: white;
+            padding: 18px 30px; font-size: 1.5rem;
+        }
+
+        .container { max-width: 750px; margin: 30px auto; padding: 0 20px; }
+
+        
+        .error-msg {
+            background: #ffebee; border: 1px solid #ef9a9a;
+            color: #c62828; padding: 14px 18px;
+            border-radius: 8px; margin-bottom: 18px;
+            font-weight: 600;
+        }
+
+        
+        .empty-cart {
+            text-align: center; padding: 60px 20px; color: #999;
+        }
+        .empty-cart h2 { margin-bottom: 15px; }
+
+        
+        .card {
+            background: white; border-radius: 12px;
+            padding: 18px 22px; margin-bottom: 16px;
+            box-shadow: 0 2px 10px rgba(0,0,0,.08);
+            display: flex; align-items: center;
+            justify-content: space-between; flex-wrap: wrap; gap: 12px;
+        }
+        .item-info h3 { font-size: 1rem; margin-bottom: 4px; }
+        .item-info p  { color: #888; font-size: 0.9rem; }
+
+       
+        .qty-row { display: flex; align-items: center; gap: 10px; }
+        .btn {
+            padding: 7px 14px; border-radius: 6px; color: white;
+            text-decoration: none; font-size: 0.95rem; font-weight: 600;
+            border: none; cursor: pointer; transition: opacity .2s;
+        }
+        .btn:hover { opacity: .85; }
+        .btn-plus   { background: #43a047; }
+        .btn-minus  { background: #fb8c00; }
+        .btn-remove { background: #757575; }
+
+        .qty-num { font-size: 1.2rem; font-weight: 700; min-width: 24px; text-align: center; }
+
+        .item-total { font-weight: 700; color: #fc8019; font-size: 1.05rem; }
+
+       
+        .summary {
+            background: white; border-radius: 12px;
+            padding: 22px; box-shadow: 0 2px 10px rgba(0,0,0,.08);
+            margin-top: 6px;
+        }
+        .summary h2 { font-size: 1.3rem; border-bottom: 2px solid #fc8019; padding-bottom: 10px; margin-bottom: 14px; }
+        .summary-row { display: flex; justify-content: space-between; padding: 6px 0; font-size: 0.95rem; }
+        .grand-row   { display: flex; justify-content: space-between; padding: 12px 0 0; font-size: 1.15rem; font-weight: 700; border-top: 1px solid #eee; margin-top: 6px; color: #fc8019; }
+
+    
+        .actions { display: flex; gap: 12px; margin-top: 18px; flex-wrap: wrap; }
+        .btn-place  { background: #43a047; padding: 12px 28px; font-size: 1rem; }
+        .btn-back   { background: #fc8019; padding: 12px 28px; font-size: 1rem; text-decoration: none; border-radius: 6px; color: white; font-weight: 600; }
+    </style>
+</head>
+<body>
+
+<h1> Your Cart</h1>
+
+<div class="container">
+
+    {# Error message (e.g. empty cart) #}
+    {% if error %}
+    <div class="error-msg"> {{ error }}</div>
+    {% endif %}
+
+    {% if items %}
+        {% for item in items %}
+        <div class="card">
+            <div class="item-info">
+                <h3>{{ item.name }}</h3>
+                <p>₹{{ item.price }} each</p>
+            </div>
+
+            <div class="qty-row">
+                {# BUG FIX: item is now a dict so use item.id, not item.pk #}
+                <a href="{% url 'decrease_quantity' item.id %}" class="btn btn-minus">➖</a>
+                <span class="qty-num">{{ item.quantity }}</span>
+                <a href="{% url 'increase_quantity' item.id %}" class="btn btn-plus">➕</a>
+            </div>
+
+            <span class="item-total">₹{{ item.total_price }}</span>
+
+            <a href="{% url 'remove_from_cart' item.id %}" class="btn btn-remove">Remove</a>
+        </div>
+        {% endfor %}
+
+        <div class="summary">
+            <h2>Order Summary</h2>
+            <div class="summary-row"><span>Subtotal</span><span>₹{{ total }}</span></div>
+            <div class="summary-row"><span>Tax (5%)</span><span>₹{{ total|floatformat:0 }}</span></div>
+            <div class="grand-row"><span>Grand Total</span><span>₹{{ total }}</span></div>
+        </div>
+
+        <div class="actions">
+            {# BUG FIX: removed duplicate <a href="place_order"> AND <form> — only the form is correct (POST required) #}
+            <form method="POST" action="{% url 'place_order' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-place">✅ Place Order</button>
+            </form>
+            <a href="{% url 'menu' %}" class="btn-back">← Back to Menu</a>
+        </div>
+
+    {% else %}
+        <div class="empty-cart">
+            <h2>Your cart is empty 🛒</h2>
+            <p>Go back to the menu and add some delicious items!</p>
+            <br>
+            <a href="{% url 'menu' %}" class="btn btn-back" style="display:inline-block; margin-top:10px;">Browse Menu</a>
+        </div>
+    {% endif %}
+
+</div>
+</body>
+</html>
